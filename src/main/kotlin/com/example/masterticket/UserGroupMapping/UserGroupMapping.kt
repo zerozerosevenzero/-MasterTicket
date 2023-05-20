@@ -9,9 +9,9 @@ import javax.persistence.IdClass
 class UserGroupMapping(
     var userGroupName: String?,
     var description: String?,
-    @get:Id
-    var userGroupId: String,
-    @get:Id
-    var userId: String,
+    @Id
+    var userGroupId: String? = null,
+    @Id
+    var userId: String? = null,
 ) {
 }

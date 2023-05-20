@@ -4,6 +4,6 @@ import java.io.Serializable
 
 
 data class UserGroupMappingId (
-    val userGroupId: String,
-    val userId: String,
+    var userGroupId: String,
+    var userId: String,
 ): Serializable
