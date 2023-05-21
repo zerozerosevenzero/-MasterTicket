@@ -2,11 +2,18 @@ server:
   port: 8080
 
 spring:
+#  datasource:
+#    url: jdbc:h2:mem:mydb;NON_KEYWORDS=USER
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
   datasource:
-    url: jdbc:h2:mem:mydb;NON_KEYWORDS=USER
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://127.0.0.1:3306/master_ticket?zeroDateTimeBehavior=convertToNull&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: sgs1159
+    password: vace1159~
+    hikari:
+      maximum-pool-size: 20
   jpa:
     hibernate:
       ddl-auto: create
@@ -15,19 +22,8 @@ spring:
         format_sql: true
         show_sql: true
 
-  #  datasource: # docker-compose? ???? DB ?? ?????.
-#    url: jdbc:mysql://127.0.0.1:3306/pass_local?zeroDateTimeBehavior=convertToNull&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-#    username: pass_local_user
-#    password: passlocal123
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    hikari:
-#      maximum-pool-size: 20
-
   batch:
     job:
-      enabled: false # ??? true? Spring Boot ?? ? ???? ?? Job?? ?????.
+      enabled: false
     jdbc:
-      # Batch? ???? SQL ??? ????? ?????. ????? ???? ????? ?????, always ??? ?? ???? ???? ?? ????? ? ????.
-      # ?? ??? ???? ???? ???.
-      # Batch Table ??
       initialize-schema: always
