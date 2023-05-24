@@ -7,11 +7,14 @@ import javax.persistence.*
 @Entity
 class User(
     val userName: String,
+    @Enumerated(EnumType.STRING)
     var status: UserStatus,
     val phone: String,
     @Type(type = "json")
     @Column(columnDefinition = "json")
     var meta: Map<String, Any>? = null,
+
+    val userId: String,
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 ) : BaseEntity() {

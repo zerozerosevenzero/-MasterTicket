@@ -17,6 +17,5 @@ abstract class BaseEntity {
     protected var createdAt: LocalDateTime = LocalDateTime.MIN
 
     @LastModifiedDate
-    @Column(nullable = false)
-    protected var modifiedAt: LocalDateTime  = LocalDateTime.MIN
+    protected var modifiedAt: LocalDateTime? = null
 }
