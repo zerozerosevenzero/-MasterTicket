@@ -20,11 +20,10 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
-        format_sql: true
         show_sql: true
   sql.init.mode: always # data.sql
   batch:
     job:
       enabled: false
     jdbc:
-      initialize-schema: always
+      initialize-schema: always # Batch Table 생성
