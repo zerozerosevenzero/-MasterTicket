@@ -13,6 +13,7 @@ class Pass(
     val startedAt: LocalDateTime,
     val endedAt: LocalDateTime? = null,
     var expiredAt: LocalDateTime? = null,
+
     @Id @GeneratedValue
     val id: Long? = null,
 ) : BaseEntity() {
