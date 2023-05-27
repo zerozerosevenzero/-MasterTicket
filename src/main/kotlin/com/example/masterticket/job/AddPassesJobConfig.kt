@@ -27,6 +27,7 @@ class AddPassesJobConfig(
     @Bean
     fun addPassesStep(): Step {
         return stepBuilderFactory["addPassesStep"]
+            .allowStartIfComplete(true) // step 재실행 시키려고 할 경우
             .tasklet(addPassesTasklet)
             .build()
     }
