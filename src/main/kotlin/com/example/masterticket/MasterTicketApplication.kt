@@ -23,68 +23,8 @@ import org.springframework.stereotype.Component
 @EnableBatchProcessing
 @EnableJpaAuditing
 @SpringBootApplication
-class MasterTicketApplication {
-    @Autowired
-    private lateinit var jobBuilderFactory: JobBuilderFactory
-
-    @Autowired
-    private lateinit var stepBuilderFactory: StepBuilderFactory
-
-    @Bean
-    fun reader(): ItemReader<String> {
-        val items = listOf("Hello", "World", "Batch")
-        return ListItemReader(items)
-    }
-
-    @Bean
-    fun processor(): ItemProcessor<String, String> {
-        return ItemProcessor { item ->
-            item.toUpperCase()
-        }
-    }
-
-    @Bean
-    fun writer(): ItemWriter<String> {
-        return ItemWriter { items ->
-            items.forEach { item ->
-                println("Writing item: $item")
-            }
-        }
-    }
-
-    @Bean
-    fun step(reader: ItemReader<String>, processor: ItemProcessor<String, String>, writer: ItemWriter<String>): Step {
-        return stepBuilderFactory.get("step")
-            .chunk<String, String>(1)
-            .reader(reader)
-            .processor(processor)
-            .writer(writer)
-            .build()
-    }
-
-    @Bean
-    fun job(step: Step): Job {
-        return jobBuilderFactory.get("job")
-            .listener(object : JobExecutionListenerSupport() {
-                override fun afterJob(jobExecution: JobExecution) {
-                    println("Job completed!")
-                }
-            })
-            .start(step)
-            .build()
-    }
-
-    @Component
-    class JobRunner(private val jobLauncher: JobLauncher, private val job: Job) {
-        fun runJob() {
-            val jobExecution = jobLauncher.run(job, JobParameters())
-            println("Job Execution Status: ${jobExecution.status}")
-        }
-    }
-}
+class MasterTicketApplication
 
 fun main(args: Array<String>) {
-    val context = runApplication<MasterTicketApplication>(*args)
-    val jobRunner = context.getBean(MasterTicketApplication.JobRunner::class.java)
-    jobRunner.runJob()
+    runApplication<MasterTicketApplication>(*args)
 }
