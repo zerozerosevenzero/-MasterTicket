@@ -1,25 +1,29 @@
 package com.example.masterticket.bulkpass
 
 import com.example.masterticket.BaseEntity
+import com.example.masterticket.pass.Pass
+import com.example.masterticket.pass.PassStatus
 import java.time.LocalDateTime
-import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
 class BulkPass(
 
-    val packageSeq: Integer,
+    val packageId: Long,
     val userGroupId: String,
     @Enumerated(EnumType.STRING)
-    val status: BulkPassStatus,
-    val count: Integer,
+    var status: BulkPassStatus,
+    val count: Int,
     val startedAt: LocalDateTime,
     val endedAt: LocalDateTime,
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 ) : BaseEntity() {
+
+    fun updateStatus(status: BulkPassStatus): BulkPass {
+        this.status = status
+        return this
+    }
+
 }

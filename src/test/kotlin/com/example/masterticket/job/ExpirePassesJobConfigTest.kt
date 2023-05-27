@@ -30,7 +30,7 @@ class ExpirePassesJobConfigTest {
 
     @Test
     @Throws(Exception::class)
-    fun test_expirePassesStep() {
+    fun 이용권만료_job() {
         // given
         addPass(10)
 
