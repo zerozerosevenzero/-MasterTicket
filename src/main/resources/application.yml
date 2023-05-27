@@ -28,3 +28,7 @@ spring:
       names: ${job.name:NONE} # Job 이름 지정
     jdbc:
       initialize-schema: always # Batch Table 생성
+
+kakaotalk:
+  host: https://kapi.kakao.com
+  token: YOUR_ACCESS_TOKEN
