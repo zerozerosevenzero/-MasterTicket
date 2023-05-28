@@ -16,6 +16,7 @@ class Booking(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", insertable = false, updatable = false)
     val user: User,
+    @Enumerated(EnumType.STRING)
     val status: BookingStatus,
     var usedPass: Boolean = false,
     val attended: Boolean,
