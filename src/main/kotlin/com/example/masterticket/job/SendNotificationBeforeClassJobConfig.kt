@@ -37,16 +37,16 @@ class SendNotificationBeforeClassJobConfig(
     private val CHUNK_SIZE = 10
 
     @Bean
-    fun sendNotificationBeforeClassJob(): Job? {
-        return jobBuilderFactory!!["sendNotificationBeforeClassJob"]
-            .start(addNotificationStep()!!)
-            .next(sendNotificationStep()!!)
+    fun sendNotificationBeforeClassJob(): Job {
+        return jobBuilderFactory["sendNotificationBeforeClassJob"]
+            .start(addNotificationStep())
+            .next(sendNotificationStep())
             .build()
     }
 
     @Bean
-    fun addNotificationStep(): Step? {
-        return stepBuilderFactory!!["addNotificationStep"]
+    fun addNotificationStep(): Step {
+        return stepBuilderFactory["addNotificationStep"]
             .chunk<Booking, Notification>(CHUNK_SIZE)
             .reader(addNotificationItemReader())
             .processor(addNotificationItemProcessor())
@@ -58,15 +58,13 @@ class SendNotificationBeforeClassJobConfig(
     fun addNotificationItemReader(): JpaPagingItemReader<Booking> {
         return JpaPagingItemReaderBuilder<Booking>()
             .name("addNotificationItemReader")
-            .entityManagerFactory(entityManagerFactory) // pageSize: 한 번에 조회할 row 수
+            .entityManagerFactory(entityManagerFactory)
             .pageSize(CHUNK_SIZE) // 상태(status)가 준비중이며, 시작일시(startedAt)이 10분 후 시작하는 예약이 알람 대상이 됩니다.
-            .queryString("select b from BookingEntity b join fetch b.userEntity where b.status = :status and b.startedAt <= :startedAt order by b.bookingSeq")
+            .queryString("select b from Booking b join fetch b.user where b.status = :status and b.startedAt <= :startedAt order by b.id")
             .parameterValues(
                 Map.of<String, Any>(
-                    "status",
-                    BookingStatus.READY,
-                    "startedAt",
-                    LocalDateTime.now().plusMinutes(10)
+                    "status", BookingStatus.READY,
+                    "startedAt", LocalDateTime.now().plusMinutes(10)
                 )
             )
             .build()
@@ -87,12 +85,12 @@ class SendNotificationBeforeClassJobConfig(
     }
 
     @Bean
-    fun sendNotificationStep(): Step? {
-        return stepBuilderFactory!!["sendNotificationStep"]
+    fun sendNotificationStep(): Step {
+        return stepBuilderFactory["sendNotificationStep"]
             .chunk<Notification, Notification>(CHUNK_SIZE)
             .reader(sendNotificationItemReader())
             .writer(sendNotificationItemWriter)
-            .taskExecutor(SimpleAsyncTaskExecutor()) // 가장 간단한 멀티쓰레드 TaskExecutor를 선언하였습니다.
+            .taskExecutor(SimpleAsyncTaskExecutor())
             .build()
     }
 
@@ -102,7 +100,7 @@ class SendNotificationBeforeClassJobConfig(
         val itemReader: JpaCursorItemReader<Notification> = JpaCursorItemReaderBuilder<Notification>()
             .name("sendNotificationItemReader")
             .entityManagerFactory(entityManagerFactory)
-            .queryString("select n from NotificationEntity n where n.event = :event and n.sent = :sent")
+            .queryString("select n from Notification n where n.event = :event and n.sent = :sent")
             .parameterValues(Map.of<String, Any>("event", NotificationEvent.BEFORE_CLASS, "sent", false))
             .build()
         return SynchronizedItemStreamReaderBuilder<Notification>()
