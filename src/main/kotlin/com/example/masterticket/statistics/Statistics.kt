@@ -19,14 +19,12 @@ class Statistics(
 ) {
     companion object {
         fun create(booking: Booking): Statistics {
-            val statistics: Statistics = Statistics(
+            return Statistics(
                 statisticsAt = booking.getStatisticsAt(),
                 allCount = 1,
                 attendedCount = if (booking.attended) 1 else 0,
                 cancelledCount = if (BookingStatus.CANCELLED.equals(booking.status)) 1 else 0,
             )
-
-            return statistics
         }
     }
 
