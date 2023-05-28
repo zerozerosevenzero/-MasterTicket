@@ -17,7 +17,7 @@ class Booking(
     @JoinColumn(name = "userId", insertable = false, updatable = false)
     val user: User,
     val status: BookingStatus,
-    val usedPass: Boolean,
+    var usedPass: Boolean = false,
     val attended: Boolean,
     val startedAt: LocalDateTime,
     val endedAt: LocalDateTime,
@@ -26,4 +26,9 @@ class Booking(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 ) : BaseEntity() {
+
+    fun updateUsedPass() {
+        this.usedPass = true
+        this.pass.remainingCount -= 1
+    }
 }
