@@ -44,6 +44,7 @@ class UsePassesJobConfig(
     @Bean
     fun usePassesStep(): Step {
         return stepBuilderFactory["usePassesStep"]
+            .allowStartIfComplete(true)
             .chunk<Booking, Future<Booking>>(CHUNK_SIZE)
             .reader(usePassesItemReader())
             .processor(usePassesAsyncItemProcessor())

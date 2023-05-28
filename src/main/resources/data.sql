@@ -23,3 +23,11 @@ VALUES ('HANBADA', 'A1000000', '한바다', '한바다 임직원 그룹', '2022-
        ('HANBADA', 'B1000010', '한바다', '한바다 임직원 그룹', '2022-08-01 00:00:00'),
        ('HANBADA', 'B2000000', '한바다', '한바다 임직원 그룹', '2022-08-01 00:00:00'),
        ('TAESAN', 'B2000001', '태산', '태산 임직원 그룹', '2022-08-01 00:00:00');
+
+INSERT INTO master_ticket.pass (id, created_at, modified_at, ended_at, expired_at, package_id, remaining_count, started_at, status, user_id) VALUES (1, '2023-05-27 20:57:08.214443', '2023-05-27 20:57:08.214443', '2023-06-01 00:26:46', null, 1, 5, '2023-05-27 20:26:18', 'READY', 'A1000000');
+INSERT INTO master_ticket.pass (id, created_at, modified_at, ended_at, expired_at, package_id, remaining_count, started_at, status, user_id) VALUES (2, '2023-05-27 20:57:08.237839', '2023-05-27 20:57:08.237839', '2023-06-01 00:26:46', null, 1, 5, '2023-05-27 20:26:18', 'READY', 'A1000001');
+INSERT INTO master_ticket.pass (id, created_at, modified_at, ended_at, expired_at, package_id, remaining_count, started_at, status, user_id) VALUES (3, '2023-05-27 20:57:08.244837', '2023-05-27 20:57:08.244837', '2023-06-01 00:26:46', null, 1, 5, '2023-05-27 20:26:18', 'READY', 'A1000002');
+INSERT INTO master_ticket.pass (id, created_at, modified_at, ended_at, expired_at, package_id, remaining_count, started_at, status, user_id) VALUES (4, '2023-05-27 20:57:08.252604', '2023-05-27 20:57:08.252604', '2023-06-01 00:26:46', null, 1, 5, '2023-05-27 20:26:18', 'READY', 'B1000010');
+INSERT INTO master_ticket.pass (id, created_at, modified_at, ended_at, expired_at, package_id, remaining_count, started_at, status, user_id) VALUES (5, '2023-05-27 20:57:08.259594', '2023-05-27 20:57:08.259594', '2023-06-01 00:26:46', null, 1, 5, '2023-05-27 20:26:18', 'READY', 'B2000000');
+
+INSERT INTO master_ticket.booking (id, created_at, modified_at, attended, canceled_at, ended_at, started_at, status, used_pass, pass_id, user_id) VALUES (1, '2023-05-29 00:24:40', null, true, null, '2023-05-29 00:00:35', '2023-05-29 00:26:20', 'COMPLETED', false, 1, 1);
