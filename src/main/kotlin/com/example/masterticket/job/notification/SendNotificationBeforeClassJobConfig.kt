@@ -1,4 +1,4 @@
-package com.example.masterticket.job
+package com.example.masterticket.job.notification
 
 import com.example.masterticket.Notification.Notification
 import com.example.masterticket.Notification.NotificationEvent
