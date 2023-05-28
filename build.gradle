@@ -39,7 +39,11 @@ dependencies {
     runtimeOnly("com.mysql:mysql-connector-j")
 
     implementation 'com.vladmihalcea:hibernate-types-52:2.19.2' // json type
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    implementation 'org.springframework.boot:spring-boot-starter-webflux' // WebClient
+
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+    implementation 'org.springframework.batch:spring-batch-integration' // AsyncItemProcessor, AsyncItemWriter
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
