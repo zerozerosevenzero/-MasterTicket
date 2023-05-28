@@ -5,7 +5,7 @@ import lombok.ToString
 import java.time.LocalDateTime
 
 class AggregatedStatistics(
-    val statisticsAt: LocalDateTime? = null,
+    val statisticsAt: LocalDateTime,
     var allCount: Long = 0,
     var attendedCount: Long = 0,
     var cancelledCount: Long = 0

@@ -4,7 +4,7 @@ import com.example.masterticket.bulkpass.BulkPass
 import com.example.masterticket.bulkpass.BulkPassRepository
 import com.example.masterticket.bulkpass.BulkPassStatus
 import com.example.masterticket.config.TestBatchConfig
-import com.example.masterticket.job.AddPassesTasklet
+import com.example.masterticket.job.pass.AddPassesTasklet
 import com.example.masterticket.pass.Pass
 import com.example.masterticket.pass.PassRepository
 import com.example.masterticket.pass.PassStatus

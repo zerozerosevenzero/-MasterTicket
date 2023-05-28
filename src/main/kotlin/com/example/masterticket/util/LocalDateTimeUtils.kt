@@ -1,5 +1,6 @@
 package com.example.masterticket.util
 
+import java.lang.IllegalArgumentException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.WeekFields
@@ -18,8 +19,8 @@ class LocalDateTimeUtils {
             return localDateTime.format(formatter)
         }
 
-        fun parse(localDateTimeString: String?): LocalDateTime? {
-            return if (localDateTimeString.isNullOrBlank()) null else LocalDateTime.parse(
+        fun parse(localDateTimeString: String?): LocalDateTime {
+            return if (localDateTimeString.isNullOrBlank()) throw IllegalArgumentException("주어진 날짜가 없습니다.") else LocalDateTime.parse(
                 localDateTimeString,
                 YYYY_MM_DD_HH_MM
             )

@@ -1,6 +1,7 @@
 package com.example.masterticket.job
 
 import com.example.masterticket.config.TestBatchConfig
+import com.example.masterticket.job.pass.ExpirePassesJobConfig
 import com.example.masterticket.pass.Pass
 import com.example.masterticket.pass.PassRepository
 import com.example.masterticket.pass.PassStatus
