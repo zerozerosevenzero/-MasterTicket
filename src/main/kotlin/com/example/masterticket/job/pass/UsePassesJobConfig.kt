@@ -1,4 +1,4 @@
-package com.example.masterticket.job
+package com.example.masterticket.job.pass
 
 import com.example.masterticket.booking.Booking
 import com.example.masterticket.booking.BookingRepository

@@ -1,4 +1,4 @@
-package com.example.masterticket.job
+package com.example.masterticket.job.pass
 
 import com.example.masterticket.UserGroupMapping.UserGroupMappingRepository
 import com.example.masterticket.bulkpass.BulkPass

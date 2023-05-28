@@ -1,4 +1,4 @@
-package com.example.masterticket.job
+package com.example.masterticket.job.pass
 
 import com.example.masterticket.pass.Pass
 import com.example.masterticket.pass.PassStatus

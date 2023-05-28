@@ -1,4 +1,4 @@
-package com.example.masterticket.job
+package com.example.masterticket.job.pass
 
 import lombok.RequiredArgsConstructor
 import org.springframework.batch.core.Job
