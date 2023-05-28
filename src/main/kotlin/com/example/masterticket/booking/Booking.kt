@@ -32,4 +32,8 @@ class Booking(
         this.usedPass = true
         this.pass.remainingCount -= 1
     }
+
+    fun getStatisticsAt(): LocalDateTime {
+        return endedAt.withHour(0).withMinute(0).withSecond(0).withNano(0)
+    }
 }
