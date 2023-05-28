@@ -97,7 +97,7 @@ class UsePassesJobConfig(
                 )
                 // 잔여 횟수가 업데이트 완료되면, 이용권 사용 여부를 업데이트합니다.
                 if (updatedCount > 0) {
-                    bookingRepository.updateUsedPass(booking.pass.id, booking.usedPass)
+                    bookingRepository.updateUsedPass(booking.id, booking.usedPass)
                 }
             }
         }
