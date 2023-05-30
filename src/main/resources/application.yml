@@ -15,13 +15,13 @@ spring:
     hikari:
       maximum-pool-size: 20
   jpa:
-    defer-datasource-initialization: true # data.sql
+#    defer-datasource-initialization: true # data.sql
     hibernate:
       ddl-auto: none
     properties:
       hibernate:
         show_sql: true
-  sql.init.mode: always # data.sql
+#  sql.init.mode: always # data.sql
   batch:
     job:
       enabled: false # Job 실행여부
