@@ -1,4 +1,4 @@
-INSERT INTO package (name, count, period, created_at)
+INSERT INTO packaze (name, count, period, created_at)
 VALUES ('Starter PT 10회', 10, 60, '2023-05-24 00:00:00'),
        ('Starter PT 20회', 20, 120, '2023-05-26 00:00:00'),
        ('Starter PT 30회', 30, 180, '2023-05-25 00:00:00'),
