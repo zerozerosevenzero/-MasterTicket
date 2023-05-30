@@ -13,12 +13,12 @@ class Pass(
     val userId: String,
     @Enumerated(EnumType.STRING)
     var status: PassStatus,
-    var remainingCount: Int,
+    var remainingCount: Int = 0,
     val startedAt: LocalDateTime,
     val endedAt: LocalDateTime? = null,
     var expiredAt: LocalDateTime? = null,
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 ) : BaseEntity() {
 
