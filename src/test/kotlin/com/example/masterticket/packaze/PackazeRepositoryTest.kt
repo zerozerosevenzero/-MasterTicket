@@ -15,7 +15,7 @@ import java.time.LocalDateTime
 @Slf4j
 @Transactional
 @SpringBootTest
-class PackageRepositoryTest {
+class PackazeRepositoryTest {
 
     @Autowired
     private val packageRepository: PackageRepository? = null
@@ -23,30 +23,30 @@ class PackageRepositoryTest {
     @Test
     fun 패키지저장() {
         // given
-        val packageEntity = Package(name = "바디 챌린지 PT 12주", count = 1, period = 84)
+        val packazeEntity = Packaze(name = "바디 챌린지 PT 12주", count = 1, period = 84)
 
         // when
-        packageRepository!!.save(packageEntity)
+        packageRepository!!.save(packazeEntity)
 
         // then
-        assertNotNull(packageEntity.id)
+        assertNotNull(packazeEntity.id)
     }
 
     @Test
     fun 조회_및_저장() {
         // given
         val dateTime = LocalDateTime.now().minusMinutes(1)
-        val packageEntity0 = Package(name = "학생 전용 3개월", period = 90)
-        packageRepository!!.save(packageEntity0)
-        val packageEntity1 = Package(name = "학생 전용 6개월", period = 180)
-        packageRepository!!.save(packageEntity1)
+        val packazeEntity0 = Packaze(name = "학생 전용 3개월", period = 90)
+        packageRepository!!.save(packazeEntity0)
+        val packazeEntity1 = Packaze(name = "학생 전용 6개월", period = 180)
+        packageRepository!!.save(packazeEntity1)
 
         // when
-        val packageEntities: List<Package> =
+        val packazeEntities: List<Packaze> =
             packageRepository.findByCreatedAtAfter(dateTime, PageRequest.of(0, 1, Sort.by("id").descending()))
 
         // then
-        Assertions.assertEquals(1, packageEntities.size)
-        assertEquals(packageEntity1.id, packageEntities[0].id)
+        Assertions.assertEquals(1, packazeEntities.size)
+        assertEquals(packazeEntity1.id, packazeEntities[0].id)
     }
 }
