@@ -13,7 +13,7 @@ class BulkPass(
     val userGroupId: String,
     @Enumerated(EnumType.STRING)
     var status: BulkPassStatus,
-    val count: Int = -1,
+    val count: Int? = null,
     val startedAt: LocalDateTime,
     val endedAt: LocalDateTime,
 

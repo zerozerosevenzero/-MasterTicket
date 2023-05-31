@@ -30,7 +30,7 @@ class Booking(
 
     fun updateUsedPass() {
         this.usedPass = true
-        this.pass.remainingCount -= 1
+        this.pass.remainingCount = this.pass.remainingCount?.minus(1)
     }
 
     fun getStatisticsAt(): LocalDateTime {

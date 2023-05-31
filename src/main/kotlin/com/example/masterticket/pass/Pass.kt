@@ -13,7 +13,7 @@ class Pass(
     val userId: String,
     @Enumerated(EnumType.STRING)
     var status: PassStatus,
-    var remainingCount: Int = 0,
+    var remainingCount: Int? = null,
     val startedAt: LocalDateTime,
     val endedAt: LocalDateTime? = null,
     var expiredAt: LocalDateTime? = null,
