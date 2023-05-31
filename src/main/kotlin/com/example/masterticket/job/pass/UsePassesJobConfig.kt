@@ -32,7 +32,9 @@ class UsePassesJobConfig(
     val passRepository: PassRepository,
     val bookingRepository: BookingRepository,
 ) {
-    private val CHUNK_SIZE = 10
+    private companion object {
+        const val CHUNK_SIZE = 10
+    }
 
     @Bean
     fun usePassesJob(): Job {
@@ -90,12 +92,9 @@ class UsePassesJobConfig(
     @Bean
     fun usePassesItemWriter(): ItemWriter<Booking> {
         return ItemWriter<Booking> { bookings: List<Booking> ->
-            for (booking in bookings) {
+            bookings.forEach { booking ->
                 // 잔여 횟수를 업데이트 합니다.
-                val updatedCount = passRepository.updateRemainingCount(
-                    booking.pass.id,
-                    booking.pass.remainingCount
-                )
+                val updatedCount = passRepository.updateRemainingCount(booking.pass.id, booking.pass.remainingCount)
                 // 잔여 횟수가 업데이트 완료되면, 이용권 사용 여부를 업데이트합니다.
                 if (updatedCount > 0) {
                     bookingRepository.updateUsedPass(booking.id, booking.usedPass)
