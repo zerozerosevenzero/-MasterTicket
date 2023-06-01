@@ -40,6 +40,7 @@ class ExpirePassesJobConfig(
     @Bean
     fun expirePassesStep(): Step {
         return stepBuilderFactory["expirePassesStep"]
+            .allowStartIfComplete(true)
             .chunk<Pass, Pass>(CHUNK_SIZE)
             .reader(expirePassesItemReader())
             .processor(expirePassesItemProcessor())
