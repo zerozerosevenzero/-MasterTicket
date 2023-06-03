@@ -26,7 +26,8 @@ class PassRepositoryCustomImpl(
         val total: Long = jpaQueryFactory
             .select(pass.count())
             .from(pass)
-            .where(pass.status.eq(status), pass.endedAt.loe(endedAt)).fetch().get(0)
+            .where(pass.status.eq(status), pass.endedAt.loe(endedAt))
+            .fetch()[0]
 
         return PageImpl(content, pageable, total)
     }
