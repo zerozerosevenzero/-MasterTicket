@@ -6,4 +6,5 @@ import java.time.LocalDateTime
 
 interface PassRepositoryCustom {
     fun findPassByStatusAndEndedAt(status: PassStatus, endedAt: LocalDateTime, pageable: Pageable): Page<Pass>
+    fun updateRemainingCount(id: Long, remainingCount: Int?): Long
 }

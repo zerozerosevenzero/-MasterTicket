@@ -9,13 +9,13 @@ import java.time.LocalDateTime
 import javax.transaction.Transactional
 
 interface PassRepository : JpaRepository<Pass, Long>, PassRepositoryCustom {
-    @Transactional
-    @Modifying
-    @Query(
-        value = "UPDATE Pass p " +
-                "SET p.remainingCount = :remainingCount," +
-                "p.modifiedAt = CURRENT_TIMESTAMP " +
-                "WHERE p.id = :id"
-    )
-    fun updateRemainingCount(id: Long?, remainingCount: Int?): Int
+//    @Transactional
+//    @Modifying
+//    @Query(
+//        value = "UPDATE Pass p " +
+//                "SET p.remainingCount = :remainingCount," +
+//                "p.modifiedAt = CURRENT_TIMESTAMP " +
+//                "WHERE p.id = :id"
+//    )
+//    fun updateRemainingCount(id: Long?, remainingCount: Int?): Int
 }
