@@ -10,7 +10,8 @@ data class JobLauncherRequest(
     val jobParameters: Properties? = null
 ) {
     fun getJobParameters(): JobParameters {
-        return JobParametersBuilder(this.jobParameters!!).addLong("datetime", System.currentTimeMillis())
+        val parameters = jobParameters ?: Properties()
+        return JobParametersBuilder(parameters).addLong("datetime", System.currentTimeMillis())
                 .toJobParameters()
     }
 }

@@ -22,7 +22,6 @@ class JobLauncherController(
     @Throws(Exception::class)
     fun launchJob(@RequestBody request: JobLauncherRequest): ExitStatus? {
         val job = jobRegistry.getJob(request.name)
-        if(request.jobParameters == null) return jobLauncher.run(job, JobParameters()).exitStatus
         return jobLauncher.run(job, request.getJobParameters()).exitStatus
     }
 }
