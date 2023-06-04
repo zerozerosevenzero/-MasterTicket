@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<configuration scan="true" scanPeriod="30 seconds" debug="true">--> <!-- 로그설정파일만 변경하게 될 경우 해당 내용 수정 - 현재는 재배포 방식 -->
+<configuration debug="true"> <!-- debug 옵션은 일단 남겨둠 - OnConsoleStatusListener 등록과 같은효과 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+
+    <!-- 오리지널 로그패턴 -->
+    <!-- <property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(-&#45;&#45;){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>-->
+
+    <!-- 지원되는 색상의 목록은 blue, cyan, faint, green, magenta, red, yellow -->
+    <!-- 분해한 로그패턴 - 알아보기 어려워서.. -->
+    <property name="dt" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint}"/>
+    <property name="level" value="%clr(${LOG_LEVEL_PATTERN:-%5p})"/>
+    <property name="pid" value="%clr(${PID:- }){magenta}"/>
+    <property name="thread" value="%clr([%15.15t]){faint}"/>
+    <property name="logger" value="%clr(%-40.40logger{39}){cyan}"/>
+    <property name="msg" value="%clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+    <property name="pattern" value="${dt} ${level} ${pid} --- ${thread} ${logger} ${msg}"/>
+
+    <!-- 콘솔 로그 설정 -->
+    <appender name="CONSOLE_LOG" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>utf8</charset>
+            <Pattern>${pattern}</Pattern>
+        </encoder>
+    </appender>
+
+    <!-- JDBC 로깅 설정 -->
+    <logger name="jdbc" level="off"/>
+    <logger name="jdbc.connection" level="off"/> <!-- 연결정보 - 연결 누수 찾을때 -->
+    <logger name="jdbc.sqlonly" level="off"/> <!-- SQL 쿼리 문장만 로깅 - argument 채워짐 -->
+    <logger name="jdbc.sqltiming" level="info"/> <!-- SQL문 + 수행 시간 로깅 - argument 채워짐 -->
+    <logger name="jdbc.resultsettable" level="off"/> <!-- 쿼리 결과 데이터 테이블 로깅 -->
+    <logger name="jdbc.audit" level="off"/> <!-- ResultSet을 제외한 모든 JDBC 호출 정보 로깅 - 많은양의 로그 JDBC 문제 추적시 사용. -->
+    <logger name="jdbc.resultset" level="off"/> <!-- ResultSet을 포함한 모든 JDBC 호출 정보를 로깅 - 가장 방대한양의 로그 -->
+
+    <!-- 로컬용 Spring JDBC 로깅 설정 -->
+<!--    <springProfile name="default">-->
+<!--        <logger name="jdbc.resultsettable" level="debug"/> &lt;!&ndash; 쿼리 결과 데이터 테이블 로깅 &ndash;&gt;-->
+<!--    </springProfile>-->
+
+    <!-- 루트 로그 레벨 설정 -->
+    <root level="info">
+        <appender-ref ref="CONSOLE_LOG" />
+    </root>
+</configuration>
