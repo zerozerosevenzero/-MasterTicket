@@ -9,16 +9,21 @@ import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory
+import org.springframework.batch.core.configuration.annotation.StepScope
 import org.springframework.batch.integration.async.AsyncItemProcessor
 import org.springframework.batch.integration.async.AsyncItemWriter
 import org.springframework.batch.item.ItemProcessor
 import org.springframework.batch.item.ItemWriter
+import org.springframework.batch.item.data.RepositoryItemReader
+import org.springframework.batch.item.data.builder.RepositoryItemReaderBuilder
 import org.springframework.batch.item.database.JpaCursorItemReader
 import org.springframework.batch.item.database.builder.JpaCursorItemReaderBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.task.SimpleAsyncTaskExecutor
+import org.springframework.data.domain.Sort
 import java.time.LocalDateTime
+import java.util.*
 import java.util.Map
 import java.util.concurrent.Future
 import javax.persistence.EntityManagerFactory
@@ -46,7 +51,6 @@ class UsePassesJobConfig(
     @Bean
     fun usePassesStep(): Step {
         return stepBuilderFactory["usePassesStep"]
-            .allowStartIfComplete(true)
             .chunk<Booking, Future<Booking>>(CHUNK_SIZE)
             .reader(usePassesItemReader())
             .processor(usePassesAsyncItemProcessor())
@@ -54,14 +58,24 @@ class UsePassesJobConfig(
             .build()
     }
 
-    // 상태(status)가 완료이며, 종료 일시(endedAt)이 과거인 예약 조회
+//    @Bean
+//    fun usePassesItemReader(): JpaCursorItemReader<Booking> {
+//        return JpaCursorItemReaderBuilder<Booking>()
+//            .name("usePassesItemReader")
+//            .entityManagerFactory(entityManagerFactory)
+//            .queryString("select b from Booking b join fetch b.pass where b.status = :status and b.usedPass = false and b.endedAt < :endedAt")
+//            .parameterValues(Map.of<String, Any>("status", BookingStatus.COMPLETED, "endedAt", LocalDateTime.now()))
+//            .build()
+//    }
+
     @Bean
-    fun usePassesItemReader(): JpaCursorItemReader<Booking> {
-        return JpaCursorItemReaderBuilder<Booking>()
+    fun usePassesItemReader(): RepositoryItemReader<Booking> {
+        return RepositoryItemReaderBuilder<Booking>()
             .name("usePassesItemReader")
-            .entityManagerFactory(entityManagerFactory)
-            .queryString("select b from Booking b join fetch b.pass where b.status = :status and b.usedPass = false and b.endedAt < :endedAt")
-            .parameterValues(Map.of<String, Any>("status", BookingStatus.COMPLETED, "endedAt", LocalDateTime.now()))
+            .repository(bookingRepository)
+            .methodName("findBookingByStatusAndEndedAt")
+            .arguments(listOf(BookingStatus.COMPLETED, LocalDateTime.now()))
+            .sorts(Collections.singletonMap("id", Sort.Direction.ASC))
             .build()
     }
 

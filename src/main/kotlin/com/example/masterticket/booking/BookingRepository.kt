@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import javax.transaction.Transactional
 
-interface BookingRepository : JpaRepository<Booking, Long> {
+interface BookingRepository : JpaRepository<Booking, Long>, BookingRepositoryCustom {
     @Transactional
     @Modifying
     @Query(
