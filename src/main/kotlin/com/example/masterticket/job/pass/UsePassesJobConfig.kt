@@ -3,6 +3,7 @@ package com.example.masterticket.job.pass
 import com.example.masterticket.booking.Booking
 import com.example.masterticket.booking.BookingRepository
 import com.example.masterticket.booking.BookingStatus
+import com.example.masterticket.pass.Pass
 import com.example.masterticket.pass.PassRepository
 import lombok.RequiredArgsConstructor
 import org.springframework.batch.core.Job
@@ -17,7 +18,9 @@ import org.springframework.batch.item.ItemWriter
 import org.springframework.batch.item.data.RepositoryItemReader
 import org.springframework.batch.item.data.builder.RepositoryItemReaderBuilder
 import org.springframework.batch.item.database.JpaCursorItemReader
+import org.springframework.batch.item.database.JpaItemWriter
 import org.springframework.batch.item.database.builder.JpaCursorItemReaderBuilder
+import org.springframework.batch.item.database.builder.JpaItemWriterBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.task.SimpleAsyncTaskExecutor
@@ -104,17 +107,20 @@ class UsePassesJobConfig(
     }
 
     @Bean
-    fun usePassesItemWriter(): ItemWriter<Booking> {
-        return ItemWriter<Booking> { bookings: List<Booking> ->
-            bookings.forEach { booking ->
-                // 잔여 횟수를 업데이트 합니다.
-                val updatedCount = passRepository.updateRemainingCount(booking.pass.id!!, booking.pass.remainingCount)
-                // 잔여 횟수가 업데이트 완료되면, 이용권 사용 여부를 업데이트합니다.
-                if (updatedCount > 0) {
-                    bookingRepository.updateUsedPass(booking.id, booking.usedPass)
-                }
-            }
-        }
+    fun usePassesItemWriter(): JpaItemWriter<Booking> {
+        return JpaItemWriterBuilder<Booking>()
+            .entityManagerFactory(entityManagerFactory)
+            .build()
+//        return ItemWriter<Booking> { bookings: List<Booking> ->
+//            bookings.forEach { booking ->
+//                // 잔여 횟수를 업데이트 합니다.
+//                val updatedCount = passRepository.updateRemainingCount(booking.pass.id!!, booking.pass.remainingCount)
+//                // 잔여 횟수가 업데이트 완료되면, 이용권 사용 여부를 업데이트합니다.
+//                if (updatedCount > 0) {
+//                    bookingRepository.updateUsedPass(booking.id, booking.usedPass)
+//                }
+//            }
+//        }
     }
 
 }
