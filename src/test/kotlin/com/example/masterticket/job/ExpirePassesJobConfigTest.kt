@@ -1,5 +1,6 @@
 package com.example.masterticket.job
 
+import com.example.masterticket.config.QuerydslConfig
 import com.example.masterticket.config.TestBatchConfig
 import com.example.masterticket.job.pass.ExpirePassesJobConfig
 import com.example.masterticket.pass.Pass
@@ -7,31 +8,32 @@ import com.example.masterticket.pass.PassRepository
 import com.example.masterticket.pass.PassStatus
 import lombok.extern.slf4j.Slf4j
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+import org.junit.runner.RunWith
 import org.springframework.batch.core.ExitStatus
 import org.springframework.batch.test.JobLauncherTestUtils
 import org.springframework.batch.test.context.SpringBatchTest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.junit.jupiter.SpringExtension
+import org.springframework.test.context.junit4.SpringRunner
 import java.time.LocalDateTime
 import java.util.*
 
-@Slf4j
 @SpringBatchTest
-@SpringBootTest
-@ContextConfiguration(classes = [ExpirePassesJobConfig::class, TestBatchConfig::class])
-class ExpirePassesJobConfigTest {
-
-    @Autowired
-    private val jobLauncherTestUtils: JobLauncherTestUtils? = null
-
-    @Autowired
-    private var passRepository: PassRepository? = null
+@SpringBootTest(classes = [ExpirePassesJobConfig::class, TestBatchConfig::class, QuerydslConfig::class])
+class ExpirePassesJobConfigTest @Autowired constructor(
+    private val jobLauncherTestUtils: JobLauncherTestUtils,
+    private val passRepository: PassRepository
+) {
 
     @Test
     @Throws(Exception::class)
-    fun 이용권만료_job() {
+    @DisplayName("이용권 만료 job")
+    fun ExpirePassesJob() {
         // given
         addPass(10)
 
