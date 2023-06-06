@@ -23,7 +23,6 @@ import javax.persistence.EntityManagerFactory
 
 @Configuration
 @RequiredArgsConstructor
-//@Transactional
 class ExpirePassesJobConfig(
     val jobBuilderFactory: JobBuilderFactory,
     val stepBuilderFactory: StepBuilderFactory,
