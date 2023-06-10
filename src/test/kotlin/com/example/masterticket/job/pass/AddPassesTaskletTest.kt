@@ -1,30 +1,24 @@
+package com.example.masterticket.job.pass
+
 import com.example.masterticket.UserGroupMapping.UserGroupMapping
 import com.example.masterticket.UserGroupMapping.UserGroupMappingRepository
 import com.example.masterticket.bulkpass.BulkPass
 import com.example.masterticket.bulkpass.BulkPassRepository
 import com.example.masterticket.bulkpass.BulkPassStatus
 import com.example.masterticket.config.TestBatchConfig
-import com.example.masterticket.job.pass.AddPassesTasklet
 import com.example.masterticket.pass.Pass
 import com.example.masterticket.pass.PassRepository
 import com.example.masterticket.pass.PassStatus
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.ArgumentCaptor
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.eq
-import org.mockito.InjectMocks
-import org.mockito.Mock
-import org.mockito.Mockito
+import org.mockito.*
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.batch.core.StepContribution
 import org.springframework.batch.core.scope.context.ChunkContext
 import org.springframework.batch.repeat.RepeatStatus
 import org.springframework.test.context.ContextConfiguration
 import java.time.LocalDateTime
-
-private fun <T> capture(argumentCaptor: ArgumentCaptor<T>): T = argumentCaptor.capture()
 
 @ContextConfiguration(classes = [AddPassesTasklet::class, TestBatchConfig::class])
 @ExtendWith(MockitoExtension::class)
@@ -69,7 +63,12 @@ class AddPassesTaskletTest {
 
         val userGroupMappingEntity = UserGroupMapping(userGroupId = userGroupId, userId = userId)
 
-        Mockito.`when`(bulkPassRepository.findByStatusAndStartedAtGreaterThan(eq(BulkPassStatus.READY), any()))
+        Mockito.`when`(
+            bulkPassRepository.findByStatusAndStartedAtGreaterThan(
+                ArgumentMatchers.eq(BulkPassStatus.READY),
+                ArgumentMatchers.any()
+            )
+        )
             .thenReturn(listOf(bulkPassEntity))
         Mockito.`when`(userGroupMappingRepository.findByUserGroupId("GROUP"))
             .thenReturn(listOf(userGroupMappingEntity))
@@ -77,17 +76,17 @@ class AddPassesTaskletTest {
         val repeatStatus = addPassesTasklet.execute(stepContribution, chunkContext)
 
         // then
-        assertEquals(RepeatStatus.FINISHED, repeatStatus)
+        Assertions.assertEquals(RepeatStatus.FINISHED, repeatStatus)
 
         val passEntitiesCaptor = ArgumentCaptor.forClass(List::class.java) as ArgumentCaptor<List<Pass>>
         Mockito.verify(passRepository, Mockito.times(1)).saveAll(passEntitiesCaptor.capture())
         val passEntities = passEntitiesCaptor.value
 
-        assertEquals(1, passEntities.size)
+        Assertions.assertEquals(1, passEntities.size)
         val passEntity = passEntities[0]
-        assertEquals(packageSeq, passEntity.packageId)
-        assertEquals(userId, passEntity.userId)
-        assertEquals(PassStatus.READY, passEntity.status)
-        assertEquals(count, passEntity.remainingCount)
+        Assertions.assertEquals(packageSeq, passEntity.packageId)
+        Assertions.assertEquals(userId, passEntity.userId)
+        Assertions.assertEquals(PassStatus.READY, passEntity.status)
+        Assertions.assertEquals(count, passEntity.remainingCount)
     }
 }
